@@ -43,4 +43,4 @@ const jobSchema = new mongoose.Schema({
    
   }
 },{timestamps : true})
-export const job = mongoose.model("Job", jobSchema)
+export const Job = mongoose.model("Job", jobSchema)
