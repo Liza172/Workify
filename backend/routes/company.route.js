@@ -5,8 +5,8 @@ import isAuthenticated from "../middlewares/isAuthenticated.js"
 
 
 router.route("/register").post(isAuthenticated ,registerCompany);
-router.route("/get").post(isAuthenticated ,getCompany);
-router.route("/get/:id").post(isAuthenticated ,getCompanyById);
-router.route("/update/:id").get(isAuthenticated ,updateCompany);
+router.route("/get").get(isAuthenticated ,getCompany);
+router.route("/get/:id").get(isAuthenticated ,getCompanyById);
+router.route("/update/:id").post(isAuthenticated ,updateCompany);
 export default router;
 

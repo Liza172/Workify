@@ -3,7 +3,7 @@ import { Company } from "../models/company.model.js";
 export const registerCompany = async (req, res) =>
 {
   try{
-    const {companyName} = req.body();
+    const {companyName} = req.body;
     if(!companyName)
     {
       return res.status(400).json({
@@ -48,7 +48,13 @@ export const getCompany = async (req, res) =>
         success : false
       });
     };
-  }catch{
+    return res.status(200).json({
+      message: "Here are registered Companies",
+      companies,
+      success : true
+    });
+
+  }catch(error){
     console.log(error);
   }
 }
@@ -96,7 +102,7 @@ export const updateCompany = async (req, res) =>
           message : "Company information updated.",
           success : true
         });
-        
+
     }catch(error)
     {
       console.log(error);
