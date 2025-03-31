@@ -81,7 +81,11 @@ export const getAppliedJobs = async (req, res) =>
       try{
         const jobId = req.params.id;
         const job = await Job.findById(jobId).populate({
-          path: 'applicant',
+          path: 'application',
+          options : {sort :{createdAt : -1}},
+          populate :{
+            path : 'applicant'
+          }
 
         })
         if(!job)
@@ -92,7 +96,7 @@ export const getAppliedJobs = async (req, res) =>
           });
         }
         return res.status(200).json({
-          applicant,
+          job,
           success : true,
         });
       }catch(error)
@@ -122,7 +126,7 @@ export const getAppliedJobs = async (req, res) =>
             success : false,
           });
         };
-        application.status = status.tolowerCase();
+        application.status = status.toLowerCase();
         await application.save();
         return res.status(200).json({
           message : "Status updated Successfully",
