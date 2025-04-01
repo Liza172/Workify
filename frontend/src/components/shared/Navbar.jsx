@@ -19,16 +19,16 @@ function Navbar() {
             <h1 className='text-3xl font-bold'> JOB <span className='text-orange-600'>PORTAL</span></h1>
           </div>
         <div className='flex items-center gap-10'>
-          <ul className='flex front-medium items-center gap-5'>
-            <li>Home</li>
-            <li>Jobs</li>
-            <li>Browse</li>
+          <ul className='flex front-medium items-center gap-5 font-bold'>
+            <li><Link to = "/">Home</Link></li>            
+            <li><Link to = "/jobs">Jobs</Link></li>
+            <li><Link to = "/browse">Browse</Link></li>
           </ul>
           {
             !user ? (
                   <div className='flex gap-3 items-center'>
-                    <Link to="/login"><Button variant="outline" >Login</Button></Link>
-                    <Link to="/signup"><Button className="bg-[#a608bf] hover:bg-[#865497]">Signup</Button></Link>
+                    <Link to="/login"><Button variant="outline" className="font-bold">Login</Button></Link>
+                    <Link to="/signup"><Button className="bg-[#a608bf] hover:bg-[#865497] font-bold">Signup</Button></Link>
                   </div>
                 ): (
           <Popover>
