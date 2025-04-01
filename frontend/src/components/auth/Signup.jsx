@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import Navbar from '../shared/Navbar'
-import { Label } from '@radix-ui/react-label'
+import { Label } from '../ui/label'
 import { Input } from '../ui/input'
-import { RadioGroup } from '@radix-ui/react-radio-group'
+import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {USER_API_END_POINT} from '@/utils/constant.js'
+import { toast } from 'sonner'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '@/redux/authSlice'
+import { Loader2 } from 'lucide-react'
 function Signup() {
   const [input, setInput] = useState({
       fullname:"",
@@ -18,9 +22,11 @@ function Signup() {
     })
     const changeEventHandler = (e) =>
     {
-      setInput({...input, [e.target.name] : e.target.value})
+      setInput({...input, [e.target.name] : e.target.value});
     }
     const navigate = useNavigate();
+    const {loading} = useSelector(store => store.auth);
+    const dispatch = useDispatch();
     const changeFileHandler = (e) =>
     {
       setInput({...input,file : e.target.files?.[0]})
@@ -40,6 +46,7 @@ function Signup() {
         formData.append("file", input.file)
       }
       try{
+        dispatch(setLoading(true));
         const res = await axios.post(`${USER_API_END_POINT}/register`,formData,{
           headers: {
             "Content-Type" : "multipart/form-data"
@@ -53,6 +60,10 @@ function Signup() {
       }catch(error)
       {
         console.log(error);
+        toast.error(error.response.data.message);
+      }
+      finally{
+        dispatch(setLoading(false));
       }
     }
   return (
@@ -138,7 +149,9 @@ function Signup() {
 
           </div>
           <div className='flex justify-between'>
-              <Button type="submit" className="bg-[#a608bf]">Sign Up</Button>
+                {
+                  loading ? <Button className="my-4"><Loader2 className='mr-2 h-4 w-4 animate-spin'/> Please Wait </Button> :  <Button type="submit" className="bg-[#a608bf]">Sign Up</Button>
+                }
               <span>Already have account ? <Link to ="/login" className="text-blue-600 text-sm">Login</Link></span>
           </div>
         </form>

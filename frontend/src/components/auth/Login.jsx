@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import Navbar from '../shared/Navbar'
-import { Label } from '@radix-ui/react-label'
+import { Label } from '../ui/label'
 import { Input } from '../ui/input'
-import { RadioGroup } from '@radix-ui/react-radio-group'
+import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {USER_API_END_POINT} from '@/utils/constant.js'
+import { toast } from 'sonner'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '@/redux/authSlice'
+import { Loader, Loader2 } from 'lucide-react'
 function Login() {
   const [input, setInput] = useState({
     email:"",
@@ -17,12 +21,15 @@ function Login() {
   {
     setInput({...input, [e.target.name] : e.target.value})
   }
+  const {loading} = useSelector(store => store.auth)
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const submitHandler = async (e) =>
   {
       e.preventDefault();
       try
       {
+            dispatch(setLoading(true))
             const res = await axios.post(`${USER_API_END_POINT}/login`,input,{
             headers: {
               "Content-Type" : "application/json"
@@ -36,6 +43,8 @@ function Login() {
       }catch(error)
       {
         console.log(error);
+      }finally{
+        dispatch(setLoading(false))
       }
 
   }
@@ -91,19 +100,14 @@ function Login() {
                       <Label htmlFor="r2">Recruiter</Label>
                   </div>
               </RadioGroup>
-              <div className='flex items-center gap-3'>
-                  <Label>Profile</Label>
-                  <Input
-                      accept = "image/*"
-                      type = "file"
-                      className="cursor-pointer"
-                    />
-              </div>
 
           </div>
+          
           <div className='flex justify-between'>
-              <Button type="submit" className="bg-[#a608bf]">Login</Button>
-              <span>Don't have account ? <Link to ="/signup" className="text-blue-600 text-sm">Sign Up</Link></span>
+                {
+                  loading ? <Button className="my-4"><Loader2 className='mr-2 h-4 w-4 animate-spin'/> Please Wait </Button> :  <Button type="submit" className="bg-[#a608bf]">Login</Button>
+                }
+                <span>Don't have account ? <Link to ="/signup" className="text-blue-600 text-sm">Sign Up</Link></span>
           </div>
         </form>
       </div>
