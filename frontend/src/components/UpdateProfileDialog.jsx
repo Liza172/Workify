@@ -5,7 +5,11 @@ import { Label } from '@radix-ui/react-label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { Loader2 } from 'lucide-react'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
+import { setUser } from '@/redux/authSlice'
+import { toast } from 'sonner'
+import axios from 'axios'
+import { USER_API_END_POINT } from '@/utils/constant'
 
 
 function UpdateProfileDialog({open ,setOpen}) {
@@ -19,6 +23,55 @@ function UpdateProfileDialog({open ,setOpen}) {
     skills : user?.profile?.skills.map(skill=>skill),
     file: user?.profile?.resume
   })
+  
+  const dispatch = useDispatch();
+
+  const changEventHandler = (e) =>
+  {
+    setInput({...Input,[e.target.name]:e.target.value})
+  }
+
+  const submitHandler = async (e) =>
+  {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("fullname", input.fullname)
+    formData.append("email", input.email)
+    formData.append("phoneNumber", input.phoneNumber)
+    formData.append("bio", input.bio)
+    formData.append("skills", input.skills)
+    if(input.file)
+    {
+      formData.append("file", input.file);
+    }
+    try{
+      console.log(formData);
+      const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData,{
+        headers:{
+          'Content-Type' : 'multipart/form-data'
+        },
+        withCredentials:true
+      });
+      if(res.data.success)
+      {
+        dispatch(setUser(res.data.user));
+        toast.success(res.data.message)
+      }
+    }catch(error){
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+    setOpen(false);
+    console.log(input);
+    
+  }
+
+  const fileChangeHandler = (e) =>
+    {
+      const file = e.target.files?.[0];
+      setInput({...input, file})
+    } 
+
   return (
     <div>
       <Dialog open = {open}>
@@ -26,37 +79,37 @@ function UpdateProfileDialog({open ,setOpen}) {
           <DialogHeader>
             <DialogTitle>Update Proile</DialogTitle>
           </DialogHeader>
-          <form className='font-medium'>
+          <form className='font-medium'onSubmit={submitHandler}>
             <div className='grid gap-4 py-4'>
               <div className='grid grid-cols-4 items-center gap-4'>
                   <Label htmlFor='name' className='text-right'>Name :</Label>
                   <Input
-                  id="name" name="name" value={input.fullname} className="col-span-3"/>
+                  id="name" name="name" type="text" value={input.fullname} onChange = {changEventHandler} className="col-span-3"/>
               </div>
               <div className='grid grid-cols-4 items-center gap-4'>
                   <Label htmlFor='email' className='text-right'>Email :</Label>
                   <Input
-                  id="email" name="name" value={input.email} className="col-span-3"/>
+                  id="email" name="name" type="text" value={input.email} onChange = {changEventHandler} className="col-span-3"/>
               </div>
               <div className='grid grid-cols-4 items-center gap-4'>
                   <Label htmlFor='number'  className='text-right'>Number :</Label>
                   <Input
-                  id= "number" name="number" value={input.phoneNumber} className="col-span-3"/>
+                  id= "number" type="number" name="number" value={input.phoneNumber} onChange = {changEventHandler} className="col-span-3"/>
               </div>
               <div className='grid grid-cols-4 items-center gap-4'>
                   <Label htmlFor='bio' className='text-right'>Bio :</Label>
                   <Input
-                  id="bio" name="bio" value={input.bio} className="col-span-3"/>
+                  id="bio" name="bio" value={input.bio} onChange = {changEventHandler} className="col-span-3"/>
               </div>
               <div className='grid grid-cols-4 items-center gap-4'>
                   <Label htmlFor='skills' className='text-right'>Skills :</Label>
                   <Input
-                  id="skills" name="skills" value={input.skills} className="col-span-3"/>
+                  id="skills" name="skills" value={input.skills} onChange = {changEventHandler} className="col-span-3"/>
               </div>
               <div className='grid grid-cols-4 items-center gap-4'>
                   <Label htmlFor='file' className='text-right'>Resume :</Label>
                   <Input
-                  id="file" name="file" type="file" accept="application/pdf" className="col-span-3"/>
+                  id="file" name="file" type="file" onChange={fileChangeHandler} accept="application/pdf" className="col-span-3"/>
               </div>
             </div>
               <DialogFooter>
