@@ -13,6 +13,7 @@ const skills = ["HTML", "CSS", "JS", "React","Node"]
 function Profile() {
   const isResume = true;
   const [open, setOpen] = useState(false);
+  
 
   return (
     

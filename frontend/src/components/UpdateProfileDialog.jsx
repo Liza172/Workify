@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogFooter, DialogTitle } from './ui/dialog'
 import React, { useState} from 'react'
 import { DialogHeader } from './ui/dialog'
-import { Label } from '@radix-ui/react-label'
+import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { Loader2 } from 'lucide-react'
@@ -28,7 +28,7 @@ function UpdateProfileDialog({open ,setOpen}) {
 
   const changEventHandler = (e) =>
   {
-    setInput({...Input,[e.target.name]:e.target.value})
+    setInput({...input,[e.target.name]:e.target.value})
   }
 
   const submitHandler = async (e) =>
