@@ -1,5 +1,5 @@
 import { Badge } from './ui/badge'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -15,7 +15,9 @@ function JobDescription() {
   const jobId = params.id;
   const dispatch = useDispatch();
 
-  const isApplied = singlejob?.application?.some(application => application.applicant === user?._id) || false;
+  const isInitiallyApplied = singlejob?.application?.some(application => application.applicant === user?._id) || false;
+
+  const [isApplied, setIsApplied] = useState(isInitiallyApplied);
 
   // console.log(singlejob);
 
@@ -23,9 +25,12 @@ function JobDescription() {
   {
     try{
       const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`,{withCredentials:true});
-      console.log(res.data);
+      console.log(res);
       if(res.data.success)
       {
+        setIsApplied(true);
+        const updatedSingleJob  = {...singlejob, application:[...singlejob.application,{applicant:user?._id}]}
+        dispatch(setSingleJob(updatedSingleJob));
         toast.success(res.data.message)
       }
     }catch(error)
@@ -43,6 +48,7 @@ function JobDescription() {
           if(res.data.success)
           {
             dispatch(setSingleJob(res.data.job));
+            setIsApplied(res.data.job.application.some(application =>application.applicant === user?._id))
           }
       }catch(error)
       {

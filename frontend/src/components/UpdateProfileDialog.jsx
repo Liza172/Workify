@@ -46,7 +46,6 @@ function UpdateProfileDialog({open ,setOpen}) {
     }
     try{
       setloading(true);
-      console.log(formData);
       const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData,{
         headers:{
           'Content-Type' : 'multipart/form-data'
@@ -65,7 +64,7 @@ function UpdateProfileDialog({open ,setOpen}) {
       setloading(false)
     }
     setOpen(false);
-    console.log(input);
+    // console.log(input);
     
   }
 
