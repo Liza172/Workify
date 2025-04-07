@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Button } from '../ui/button'
 import { ArrowLeft, Loader2 } from 'lucide-react'
@@ -8,6 +8,7 @@ import { COMPANY_API_END_POINT } from '@/utils/constant'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
 
 function CompanySetup() {
   
@@ -18,10 +19,12 @@ function CompanySetup() {
       location : "",
       file:null
     });
-  
+    
+    const {singleCompany} = useSelector(store=>store.company);
     const [loading, setLoading] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
   const changeEventHandler = (e) =>
   {
@@ -49,7 +52,7 @@ function CompanySetup() {
         const res = await axios.post(`${COMPANY_API_END_POINT}/update/${params.id}`, formData, {
           headers:{
             'Content-Type' : 'multipart/form-data'
-          }, withCreadentials:true
+          }, withCredentials:true
         })
         if(res.data.success)
         {
@@ -66,7 +69,18 @@ function CompanySetup() {
     }
   }
 
+  useEffect(() =>
+  {
+    setInput({
+      name : singleCompany.name || "",
+      description : singleCompany.description ||"",
+      website: singleCompany.website || "",
+      location : singleCompany.location ||  "",
+      file: singleCompany.file ||null
+    }, [dispatch, params.id])
+    
 
+  })
   return (
     <div>
       <Navbar/>
