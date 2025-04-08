@@ -9,9 +9,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
+import useGetCompanyById from '../hooks/useGetCompanyById'
 
 function CompanySetup() {
-  
+    const params = useParams();
+    useGetCompanyById(params.id);
     const [input, setInput] = useState({
       name : "",
       description : "",
@@ -22,7 +24,6 @@ function CompanySetup() {
     
     const {singleCompany} = useSelector(store=>store.company);
     const [loading, setLoading] = useState(false);
-    const params = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -48,6 +49,7 @@ function CompanySetup() {
       formData.append("file", input.file)
     }
     try{
+      // console.log(input);
       setLoading(true);
         const res = await axios.post(`${COMPANY_API_END_POINT}/update/${params.id}`, formData, {
           headers:{
@@ -78,7 +80,7 @@ function CompanySetup() {
       location : singleCompany.location ||  "",
       file: singleCompany.file ||null
     })
-  }, [dispatch, params.id])
+  }, [singleCompany])
   return (
     <div>
       <Navbar/>

@@ -1,14 +1,30 @@
 import { Edit2, MoreHorizontal } from 'lucide-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover'
 import { Avatar , AvatarImage} from '../ui/avatar'
 import { Table } from '../ui/table'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 function CompaniesTable() {
-  const {companies} = useSelector(store =>store.company)
+  const {companies, searchCompanyByText} = useSelector(store =>store.company);
+  const [filterCompany, setFilterCompany] = useState(companies);
+  const navigate = useNavigate();
+  
+  useEffect(() =>
+  {
+    const filteredCompany = companies.length >= 0 && companies.filter((company) =>
+    {
+      if(!searchCompanyByText)
+      {
+        return true;
+      }
+      return company?.name?.toLowerCase().includes(searchCompanyByText.toLowerCase());
+    });
+    setFilterCompany(filteredCompany)
+  }, [companies, searchCompanyByText])
   return (
     <div>
       <Table>
@@ -23,20 +39,20 @@ function CompaniesTable() {
         </TableHeader>
         <TableBody>
         {
-                    companies?.map((company) =>{
+                    filterCompany?.map((company) =>(
                         <tr>
                         <TableCell>
                         <Avatar>
-                            <AvatarImage src = "https://png.pngtree.com/png-vector/20220509/ourmid/pngtree-company-logo-design-trademark-design-creative-logo-png-image_4569380.png"></AvatarImage>
+                            <AvatarImage src ={company.logo}></AvatarImage>
                         </Avatar>
                       </TableCell>
                       <TableCell>{company.name}</TableCell>
-                      <TableCell>{company.createdAt.split("")[0]}</TableCell>
+                      <TableCell>{company.createdAt.split("T")[0]}</TableCell>
                       <TableCell className="text-right cursor-pointer">
                         <Popover>
                           <PopoverTrigger><MoreHorizontal/></PopoverTrigger>
                           <PopoverContent className='w-32'>
-                            <div className='flex items-center gap-2 w-fit  cursor-pointer'>
+                            <div className='flex items-center gap-2 w-fit  cursor-pointer' onClick={() => navigate(`/admin/companies/${company._id}`)}>
                               <Edit2 className='w-4'/>
                               <span>Edit</span>
                             </div>
@@ -44,7 +60,7 @@ function CompaniesTable() {
                         </Popover>
                   </TableCell>
                   </tr> 
-                    })
+                    ))
                     
                 }
                    
