@@ -77,10 +77,8 @@ function CompanySetup() {
       website: singleCompany.website || "",
       location : singleCompany.location ||  "",
       file: singleCompany.file ||null
-    }, [dispatch, params.id])
-    
-
-  })
+    })
+  }, [dispatch, params.id])
   return (
     <div>
       <Navbar/>
