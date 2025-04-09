@@ -1,4 +1,4 @@
-import { Edit2, MoreHorizontal } from 'lucide-react'
+import { Edit2, Eye, MoreHorizontal } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover'
@@ -48,10 +48,14 @@ function AdminJobsTable() {
                       <TableCell className="text-right cursor-pointer">
                         <Popover>
                           <PopoverTrigger><MoreHorizontal/></PopoverTrigger>
-                          <PopoverContent className='w-32'>
-                            <div className='flex items-center gap-2 w-fit  cursor-pointer' onClick={() => navigate(`/admin/companies/${job._id}`)}>
+                          <PopoverContent className='w-32 bg-white border border-gray-200  rounded-lg p-2'>
+                            <div className='flex items-center gap-2 w-fit  cursor-pointer mt-2' onClick={() => navigate(`/admin/companies/${job._id}`)}>
                               <Edit2 className='w-4'/>
                               <span>Edit</span>
+                            </div>
+                            <div className='flex items-center gap-2 w-fit  cursor-pointer mt-2' onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)}>
+                              <Eye className='w-4'/>
+                              <span>Applicants</span>
                             </div>
                           </PopoverContent>
                         </Popover>

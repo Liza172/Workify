@@ -4,7 +4,7 @@ import Navbar from '../shared/Navbar'
 import { Input } from '../ui/input'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import AdminJosTable from "./AdminJosTable"
+import AdminJosTable from "./AdminJobsTable"
 import useGetAllAdminJobs from '../hooks/useGetAllAdminJobs'
 import { setsearchJobByText } from '@/redux/jobSlice'
 
@@ -24,7 +24,7 @@ function AdminJobs() {
         <div className='flex items-center justify-between my-5'>
             <Input
               className="w-fit"
-              placeholder = "Filter by name"
+              placeholder = "Filter by name, role"
               onChange = {(e) =>setInput(e.target.value)}
             />
              <Button onClick = {() => navigate("/admin/jobs/create")} className='bg-[#a608bf] text-white 
