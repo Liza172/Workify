@@ -8,7 +8,7 @@ const applicationSlice = createSlice({
   reducers:{
     setAllApplicants:(state, action) =>
     {
-      state:applicants = action.payload
+      state.applicants = action.payload
     }
   }
 })
