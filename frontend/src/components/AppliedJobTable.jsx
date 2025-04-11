@@ -22,9 +22,9 @@ function AppliedJobTable() {
               allAppliedJobs?.length <= 0  ? <span>You haven't applied any job yet.</span> : allAppliedJobs.map((appliedJob, index) =>(
                   <TableRow key = {appliedJob._id}>
                       <TableCell>{appliedJob?.createdAt?.split("T")[0]}</TableCell>
-                      <TableCell>{appliedJob?.job?.title}</TableCell>
+                      <TableCell>{appliedJob?.job?.title}</TableCell> 
                       <TableCell>{appliedJob?.job?.company?.name}</TableCell>
-                      <TableCell className="text-right"><Badge>{appliedJob?.status}</Badge></TableCell>
+                      <TableCell className="text-right"><Badge className={`${appliedJob.status === 'rejected' ? 'bg-red-500': appliedJob.status === 'pending' ? 'bg-gray-400' : 'bg-green-500'}`}>{appliedJob?.status.toUppercase()}</Badge></TableCell>
                   </TableRow>
               ))
               
