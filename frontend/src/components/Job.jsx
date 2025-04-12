@@ -3,10 +3,9 @@ import { Button } from './ui/button'
 import { Bookmark } from 'lucide-react'
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import { Badge } from './ui/badge'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 
 function Job({job}) {
-  const navigate = useNavigate();
   const daysAgoFunction = (mongodbTime) =>
   {
     const createdAt = new Date(mongodbTime);

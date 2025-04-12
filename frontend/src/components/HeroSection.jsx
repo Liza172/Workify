@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { Search } from 'lucide-react'
 import { useDispatch } from 'react-redux';
-import { setSearchQuery } from '@/redux/jobSlice';
 import { useNavigate } from 'react-router-dom';
+import { setSearchQuery } from '@/redux/authSlice';
 
 function HeroSection() {
   const [query, setQuery] = useState("");

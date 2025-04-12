@@ -3,7 +3,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Button } from './ui/button'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { setSearchQuery } from '@/redux/jobSlice'
+import { setSearchQuery } from '@/redux/authSlice'
 
 const catagory = [
     "Fronted Developer",
