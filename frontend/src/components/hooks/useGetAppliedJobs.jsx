@@ -15,7 +15,7 @@ const useGetApplidJobs = () =>
     {
       try{
           const res = await axios.get(`${APPLICATION_API_END_POINT}/get`, {withCredentials:true});
-          console.log(res.data);
+          console.log(res);
           if(res.data.success)
           {
             dispathch(setAllAppliedJobs(res.data.application));
