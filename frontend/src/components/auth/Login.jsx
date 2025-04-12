@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
@@ -21,7 +21,7 @@ function Login() {
   {
     setInput({...input, [e.target.name] : e.target.value})
   }
-  const {loading} = useSelector(store => store.auth)
+  const {loading, user} = useSelector(store => store.auth)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const submitHandler = async (e) =>
@@ -49,6 +49,13 @@ function Login() {
       }
 
   }
+  useEffect(()=>
+  {
+    if(user)
+    {
+      navigate("/");
+    }
+  })
   return (
     <div>
       <Navbar/>
