@@ -1,4 +1,5 @@
 import {Job} from "../models/job.model.js"
+import { User } from "../models/user.model.js";
 
 export const postJob = async (req, res) =>
 {
@@ -103,7 +104,7 @@ export const getAdminJobs = async (req, res) =>
       if(!jobs)
       {
         return res.status(404).json({
-          message : " Jobs not fount.",
+          message : " Jobs not found.",
           success : false
          })
       };
@@ -117,3 +118,83 @@ export const getAdminJobs = async (req, res) =>
         console.log(error)
       }
   }
+
+  export const getJobfromWishlist = async (req, res) =>
+  {
+    try{
+        const userId = req.id;
+        const user = await User.findOne({_id : userId}).populate({
+          path : "wishlist",
+          populate:{
+            path : "company",
+          }
+        })
+        if(!user)
+          {
+            return res.status(404).json({
+              message : " User not found.",
+              success : false
+             })
+          };
+          return res.status(200).json({
+            user, 
+            success:true
+          });
+
+    }catch(error)
+    {
+      console.log(error)
+    }
+  }
+
+  export const addToWishlist = async (req, res) =>
+    {
+      try{
+          const params = req.params;
+          const userId = req.id;
+          const user = await User.findOne({_id : userId})
+          user.wishlist.push(params.id);
+          await user.save();
+          if(!user)
+            {
+              return res.status(404).json({
+                
+                success : false
+               })
+            };
+            return res.status(200).json({
+              message : "Added to wishlist", 
+              success:true
+            });
+      }catch(error)
+      {
+        console.log(error)
+      }
+    }
+
+    export const removeFromWishlist = async (req, res) =>
+      {
+        try{
+            const params = req.params;
+            const userId = req.id;
+            const user = await User.findOne({_id : userId})
+            user.wishlist.push(params.id);
+            await user.save();
+            if(!user)
+              {
+                return res.status(404).json({
+                  
+                  success : false
+                 })
+              };
+              return res.status(200).json({
+                message : "Added to wishlist", 
+                success:true
+              });
+        }catch(error)
+        {
+          console.log(error)
+        }
+      }
+  
+  

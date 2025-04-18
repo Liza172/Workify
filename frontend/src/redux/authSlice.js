@@ -5,6 +5,7 @@ const authSlice = createSlice({
     loading : false,
     user: null,
     searchQuery: "",
+    wishlist: [],
   },
   reducers:{
     setLoading :(state, action) =>
@@ -19,7 +20,11 @@ const authSlice = createSlice({
     {
       state.searchQuery = action.payload;
     },
+    addToWishlist:(state, action) =>
+    {
+      state.wishlist = action.payload; 
+    },
   }
 });
-export const {setLoading, setUser, setSearchQuery} = authSlice.actions;
+export const {setLoading, setUser, setSearchQuery, addToWishlist, removeFromWishlist} = authSlice.actions;
 export default authSlice.reducer;

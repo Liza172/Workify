@@ -14,6 +14,10 @@ import AdminJobs from './components/admin/AdminJobs'
 import PostJob from './components/admin/PostJob'
 import Applicants from './components/admin/Applicants'
 import ProtectedRoute from './components/admin/ProtectedRoute'
+import ProtectedRouteUser from './components/ProtectedRouteUser'
+import ProtectedUnauthorizedUser from './components/ProtectectedUnauthorizedUser'
+import Wishlist from './components/Wishlist'
+
 
 const appRouter = createBrowserRouter([
   {
@@ -30,19 +34,23 @@ const appRouter = createBrowserRouter([
   },
   {
     path: '/jobs',
-    element : <Jobs/>
+    element : <ProtectedUnauthorizedUser><ProtectedRouteUser><Jobs/></ProtectedRouteUser></ProtectedUnauthorizedUser>
   },
   {
     path: '/browse',
-    element : <Browse/>
+    element : <ProtectedUnauthorizedUser><ProtectedRouteUser><Browse/></ProtectedRouteUser></ProtectedUnauthorizedUser>
+  },
+  {
+    path: '/wishlist',
+    element : <ProtectedUnauthorizedUser><ProtectedRouteUser><Wishlist/></ProtectedRouteUser></ProtectedUnauthorizedUser>
   },
   {
     path: '/description/:id',
-    element : <JobDescription/>
+    element : <ProtectedUnauthorizedUser><ProtectedRouteUser><JobDescription/></ProtectedRouteUser></ProtectedUnauthorizedUser>
   },
   {
     path: '/profile',
-    element : <Profile/>
+    element : <ProtectedRouteUser><Profile/></ProtectedRouteUser>
   },
 
   //admin
@@ -52,23 +60,23 @@ const appRouter = createBrowserRouter([
   },
   {
     path: '/admin/companies/create',
-    element : <CompanyCreate/>
+    element : <ProtectedRoute><CompanyCreate/></ProtectedRoute>
   },
   {
     path : "/admin/companies/:id",
-    element : <CompanySetup/>
+    element : <ProtectedRoute><CompanySetup/></ProtectedRoute>
   },
   {
     path : "/admin/jobs",
-    element : <AdminJobs/>
+    element : <ProtectedRoute><AdminJobs/></ProtectedRoute>
   },
   {
     path : "/admin/jobs/create",
-    element : <PostJob/>
+    element : <ProtectedRoute><PostJob/></ProtectedRoute>
   },
   {
     path : "/admin/jobs/:id/applicants",
-    element : <Applicants/>
+    element : <ProtectedRoute><Applicants/></ProtectedRoute>
   },
 
 ])

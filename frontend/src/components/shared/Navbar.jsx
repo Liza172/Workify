@@ -6,7 +6,7 @@ import { AvatarImage } from '../ui/avatar'
 import { Popover } from '../ui/popover'
 import { PopoverTrigger } from '../ui/popover'
 import { PopoverContent } from '../ui/popover'
-import { LogOut, User2 } from 'lucide-react'
+import { Heart, LogOut, User2 } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
@@ -40,7 +40,7 @@ function Navbar() {
     <div className='bg-white'>
       <div className='flex justify-between mx-auto max-w-7xl h-16 items-center gap-5'> 
           <div>      
-            <h1 className='text-3xl font-bold'> JOB <span className='text-orange-600'>PORTAL</span></h1>
+            <h1 className='text-3xl font-bold'> WORK<span className='text-orange-600'>IFY</span></h1>
           </div>
         <div className='flex items-center gap-10'>
           <ul className='flex front-medium items-center gap-5 font-bold'>
@@ -55,6 +55,7 @@ function Navbar() {
                       <li><Link to = "/">Home</Link></li>            
                       <li><Link to = "/jobs">Jobs</Link></li>
                       <li><Link to = "/browse">Browse</Link></li>
+                      <li><Link to = "/wishlist"><Heart/></Link></li>
                   </>
               )
             }
