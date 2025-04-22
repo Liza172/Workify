@@ -4,10 +4,12 @@ import Job from './Job';
 import { useDispatch, useSelector } from 'react-redux';
 import useGetAllJobs from './hooks/useGetAllJobs';
 import { setSearchQuery } from '@/redux/authSlice';
+import useGetAllWishlistItem from './hooks/useGetAllWishlistItem';
 
 function Browse() {
   const dispatch = useDispatch();
   useGetAllJobs();
+  useGetAllWishlistItem();
   const {allJob} = useSelector(store=>store.job);
   
   useEffect(() => {

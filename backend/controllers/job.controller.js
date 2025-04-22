@@ -177,18 +177,9 @@ export const getAdminJobs = async (req, res) =>
         try{
             const params = req.params;
             const userId = req.id;
-            const user = await User.findOne({_id : userId})
-            user.wishlist.push(params.id);
-            await user.save();
-            if(!user)
-              {
-                return res.status(404).json({
-                  
-                  success : false
-                 })
-              };
+            await User.updateOne({_id : userId}, {$pull : {wishlist: params.id}})
               return res.status(200).json({
-                message : "Added to wishlist", 
+                message : "Successfully deleted to wishlist", 
                 success:true
               });
         }catch(error)

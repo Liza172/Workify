@@ -21,7 +21,7 @@ const useGetAllWishlistItem = () => {
         }
       }
       fetchItem();
-    }, [])
+    }, [dispatch])
 }
 
-export default useGetAllWishlistItem
+export default useGetAllWishlistItem;
