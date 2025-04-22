@@ -1,4 +1,4 @@
-import React, { useDebugValue, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { Bookmark, Loader2 } from 'lucide-react'
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
@@ -13,10 +13,12 @@ function Job({job}) {
 
   const {wishlist} = useSelector(store => store.auth);
 
-  const isInitialState = wishlist?.some(item => item._id === job?._id);
-  
-  const [isInWishlist, setIsInWishlist] = useState(isInitialState);
+
+  const [isInWishlist, setIsInWishlist] = useState(false);
   const [loading, setloading] = useState(false);
+  useEffect(() => {
+    setIsInWishlist(wishlist?.some(item => item._id === job._id));
+}, [wishlist, job._id]);
   const daysAgoFunction = (mongodbTime) =>
   {
     const createdAt = new Date(mongodbTime);
@@ -34,7 +36,7 @@ function Job({job}) {
       {
         toast.success(res.data.message);
       }
-      setIsInWishlist(job);
+      setIsInWishlist(true);
     }catch(error)
     {
       console.log(error);
